@@ -10,7 +10,7 @@
 
             function getContent()
             {
-                $user = User::getOne(); // This is for single user sites; will retrieve the main user
+                $user = \Idno\Entities\User::getOne(['admin' => true]); // This is for single user sites; will retrieve the main user
                 $code = $this->getInput('code');
                 if (!empty($code)) {
                     $client   = new Webservice();

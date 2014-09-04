@@ -13,11 +13,11 @@
             {
 
                 $headers = getallheaders();
-                $user = User::getOne();
+                $user    = User::getOne();
 
                 if (!empty($headers['Authorization'])) {
-                    $token = $headers['Authorization'];
-                    $token = trim(str_replace('Bearer','',$token));
+                    $token            = $headers['Authorization'];
+                    $token            = trim(str_replace('Bearer', '', $token));
                     $indieauth_tokens = $user->indieauth_tokens;
                     if (!empty($indieauth_tokens[$token])) {
                         $this->setResponse(200);
@@ -54,23 +54,23 @@
                     if (!empty($content['me']) && parse_url($content['me'], PHP_URL_HOST) == parse_url(\Idno\Core\site()->config()->getURL(), PHP_URL_HOST)) {
 
                         // Get user & existing tokens
-                        $user             = User::getOne();
+                        $user             = \Idno\Entities\User::getOne(['admin' => true]);
                         $indieauth_tokens = $user->indieauth_tokens;
                         if (empty($indieauth_tokens)) {
                             $indieauth_tokens = [];
                         }
 
                         // Generate access token and save it to the user
-                        $token                        = md5(rand(0, 99999) . time() . $user->getUUID() . $client_id . $state . rand(0, 999999));
+                        $token                    = md5(rand(0, 99999) . time() . $user->getUUID() . $client_id . $state . rand(0, 999999));
                         $indieauth_tokens[$token] = [
                             'me'           => $me,
                             'redirect_uri' => $redirect_uri,
                             'scope'        => 'post',
                             'client_id'    => $client_id,
                             'issued_at'    => time(),
-                            'nonce'        => mt_rand(1000000,pow(2,31))
+                            'nonce'        => mt_rand(1000000, pow(2, 31))
                         ];
-                        $user->indieauth_tokens       = $indieauth_tokens;
+                        $user->indieauth_tokens   = $indieauth_tokens;
                         $user->save();
                         if (\Idno\Core\site()->session()->isLoggedOn() && $user->getUUID() == \Idno\Core\site()->session()->currentUser()->getUUID()) {
                             \Idno\Core\site()->session()->refreshSessionUser($user);
