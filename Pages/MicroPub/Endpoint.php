@@ -44,6 +44,9 @@
                     if ($type == 'entry') {
                         if (!empty($_FILES['photo'])) {
                             $type = 'photo';
+                            if (empty($name) && !empty($content)) {
+                                $name = $content; $content = '';
+                            }
                         } else if (empty($name)) {
                             $type = 'note';
                         } else {
