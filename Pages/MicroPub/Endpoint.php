@@ -63,7 +63,7 @@
                             $this->setInput('body', $content);
                             $this->setInput('inreplyto', $in_reply_to);
                             if (!empty($syndicate)) {
-                                $syndication = [trim(str_replace('.com', '', $syndicate))];
+                                $syndication = array(trim(str_replace('.com', '', $syndicate)));
                                 $this->setInput('syndication', $syndication);
                             }
                             if ($entity->saveDataFromInput()) {

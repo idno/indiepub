@@ -42,13 +42,13 @@
                 $client_id    = $this->getInput('client_id');
 
                 // Verify code
-                $response = Webservice::post('https://indieauth.com/auth', [
+                $response = Webservice::post('https://indieauth.com/auth', array(
                     'me'           => $me,
                     'code'         => $code,
                     'redirect_uri' => $redirect_uri,
                     'state'        => $state,
                     'client_id'    => $client_id
-                ]);
+                ));
                 if ($response['response'] == 200) {
                     parse_str($response['content'], $content);
                     if (!empty($content['me']) && parse_url($content['me'], PHP_URL_HOST) == parse_url(\Idno\Core\site()->config()->getURL(), PHP_URL_HOST)) {
