@@ -62,14 +62,14 @@
 
                         // Generate access token and save it to the user
                         $token                    = md5(rand(0, 99999) . time() . $user->getUUID() . $client_id . $state . rand(0, 999999));
-                        $indieauth_tokens[$token] = [
+                        $indieauth_tokens[$token] = array(
                             'me'           => $me,
                             'redirect_uri' => $redirect_uri,
                             'scope'        => 'post',
                             'client_id'    => $client_id,
                             'issued_at'    => time(),
                             'nonce'        => mt_rand(1000000, pow(2, 31))
-                        ];
+                        );
                         $user->indieauth_tokens   = $indieauth_tokens;
                         $user->save();
                         if (\Idno\Core\site()->session()->isLoggedOn() && $user->getUUID() == \Idno\Core\site()->session()->currentUser()->getUUID()) {
