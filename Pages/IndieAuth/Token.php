@@ -54,10 +54,10 @@
                     if (!empty($content['me']) && parse_url($content['me'], PHP_URL_HOST) == parse_url(\Idno\Core\site()->config()->getURL(), PHP_URL_HOST)) {
 
                         // Get user & existing tokens
-                        $user             = \Idno\Entities\User::getOne(['admin' => true]);
+                        $user             = \Idno\Entities\User::getOne(array('admin' => true));
                         $indieauth_tokens = $user->indieauth_tokens;
                         if (empty($indieauth_tokens)) {
-                            $indieauth_tokens = [];
+                            $indieauth_tokens = array();
                         }
 
                         // Generate access token and save it to the user
@@ -79,11 +79,11 @@
                         // Output to the browser
                         $this->setResponse(200);
                         header('Content-Type: application/x-www-form-urlencoded');
-                        echo http_build_query([
+                        echo http_build_query(array(
                             'access_token' => $token,
                             'scope'        => 'post',
                             'me'           => $me,
-                        ]);
+                        ));
                         exit;
 
                     } else {
