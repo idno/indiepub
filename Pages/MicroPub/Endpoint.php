@@ -86,7 +86,7 @@
 
                 }
 
-                $this->setResponse(404);
+                $this->setResponse(403);
                 echo 'Huh?';
 
             }
