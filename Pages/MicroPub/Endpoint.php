@@ -82,7 +82,7 @@
                     } else {
 
                         $this->setResponse(500);
-                        echo "Couldn't find entry";
+                        echo "Couldn't find content type {$type}";
                         exit;
 
                     }
@@ -90,7 +90,7 @@
                 }
 
                 $this->setResponse(403);
-                echo 'Huh?';
+                echo 'Bad token';
 
             }
 
