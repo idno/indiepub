@@ -72,7 +72,7 @@
                                 header('Location: ' . $entity->getURL());
                                 exit;
                             } else {
-                                $this->setResponse(404);
+                                $this->setResponse(500);
                                 echo "Couldn't create {$type}";
                                 exit;
                             }
@@ -81,7 +81,9 @@
 
                     } else {
 
+                        $this->setResponse(500);
                         echo "Couldn't find entry";
+                        exit;
 
                     }
 
