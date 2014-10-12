@@ -11,6 +11,7 @@
             function get()
             {
 
+                $this->setResponse(403);
                 echo '?';
 
             }
