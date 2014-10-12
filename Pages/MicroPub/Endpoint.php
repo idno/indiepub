@@ -63,6 +63,9 @@
                             $this->setInput('title', $name);
                             $this->setInput('body', $content);
                             $this->setInput('inreplyto', $in_reply_to);
+                            if ($created = $this->getInput('published')) {
+                                $this->setInput('created', $created);
+                            }
                             if (!empty($syndicate)) {
                                 $syndication = array(trim(str_replace('.com', '', $syndicate)));
                                 $this->setInput('syndication', $syndication);
