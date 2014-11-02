@@ -30,8 +30,10 @@
                 } else if ($token = $this->getInput('access_token')) {
                     $token = trim($token);
                 }
+                
+                $user_token = $user->getAPIkey();
 
-                if (!empty($indieauth_tokens[$token])) {
+                if (!empty($indieauth_tokens[$token]) || $token == $user_token) {
 
                     // If we're here, we're authorized
 
