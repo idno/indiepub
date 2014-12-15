@@ -68,7 +68,7 @@
                             'scope'        => 'post',
                             'client_id'    => $client_id,
                             'issued_at'    => time(),
-                            'nonce'        => mt_rand(1000000, pow(2, 31))
+                            'nonce'        => mt_rand(1000000, pow(2, 30))
                         );
                         $user->indieauth_tokens   = $indieauth_tokens;
                         $user->save();
