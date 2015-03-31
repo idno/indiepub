@@ -19,7 +19,7 @@
             function post()
             {
 
-                $headers = getallheaders();
+                $headers = $this->getallheaders();
                 $user    = \Idno\Entities\User::getOne(array('admin' => true));
                 \Idno\Core\site()->session()->refreshSessionUser($user);
                 $indieauth_tokens = $user->indieauth_tokens;
