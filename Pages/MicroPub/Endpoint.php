@@ -43,6 +43,30 @@
                     $name        = $this->getInput('name');
                     $in_reply_to = $this->getInput('in-reply-to');
                     $syndicate   = $this->getInput('syndicate-to');
+                    
+                    
+                     // For OwnYourGram
+                    $syndication2 = $this->getInput('syndication');
+                    $syndication_link = "<a href=\"{$syndication2}\" rel=syndication class=\"u-syndication\"></a>";
+                    $category2    = explode(',', $this->getInput('category'));
+                    foreach($category2 as $idx => $hashtag) {
+                        $category2[$idx] = "#{$hashtag}";
+                    }
+                    $category2 = implode(' ', $category2) . $syndication_link;
+
+                    if ($type == 'entry') {
+                        if (!empty($_FILES['photo'])) {
+                            $type = 'photo';
+                            if (empty($name) && !empty($content)) {
+                                $name = trim(preg_replace('/#[\S]+/', '', $content)); $content = $category2;
+                            }
+                        } else if (empty($name)) {
+                            $type = 'note';
+                        } else {
+                            $type = 'article';
+                        }
+                    }
+                    
 
                     if ($type == 'entry') {
                         if (!empty($_FILES['photo'])) {
