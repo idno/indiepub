@@ -657,7 +657,7 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
                     finfo_close($finfo);
                 }
 
-                $_FILES[$type] = [
+                $_FILES[$type][] = [
                     'tmp_name' => $tmpname,
                     'name'     => $pathinfo['basename'],
                     'size'     => filesize($tmpname),
