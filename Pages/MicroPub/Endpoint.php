@@ -608,6 +608,10 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
          */
         private function uploadFromUrl($type, $url)
         {
+            if(is_array($url) && array_key_exists(0, $url))
+            {
+                $url = $url[0];
+            }
             $pathinfo = pathinfo(parse_url($url, PHP_URL_PATH));
             switch ($pathinfo['extension']) {
                 case 'jpg':
