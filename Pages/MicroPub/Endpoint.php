@@ -608,65 +608,65 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
          */
         private function uploadFromUrl($type, $url)
         {
-            if(is_array($url) && array_key_exists(0, $url))
+            $_url = $url;
+            foreach($_url as $url)
             {
-                $url = $url[0];
-            }
-            $pathinfo = pathinfo(parse_url($url, PHP_URL_PATH));
-            switch ($pathinfo['extension']) {
-                case 'jpg':
-                case 'jpeg':
-                    $mimetype = 'image/jpeg';
-                    break;
-                case 'png':
-                    $mimetype = 'image/png';
-                    break;
-                case 'gif':
-                    $mimetype = 'image/gif';
-                    break;
+                $pathinfo = pathinfo(parse_url($url, PHP_URL_PATH));
+                switch ($pathinfo['extension']) {
+                    case 'jpg':
+                    case 'jpeg':
+                        $mimetype = 'image/jpeg';
+                        break;
+                    case 'png':
+                        $mimetype = 'image/png';
+                        break;
+                    case 'gif':
+                        $mimetype = 'image/gif';
+                        break;
 
-                case 'mp4':
-                    $mimetype = 'video/mp4';
-                    break;
-                case 'ogv':
-                    $mimetype = 'video/ogg';
-                    break;
+                    case 'mp4':
+                        $mimetype = 'video/mp4';
+                        break;
+                    case 'ogv':
+                        $mimetype = 'video/ogg';
+                        break;
 
-                case 'mp3':
-                    $mimetype = 'audio/mpeg';
-                    break;
-                case 'oga':
-                case 'ogg':
-                    $mimetype = 'audio/ogg';
-                    break;
-                case 'wav':
-                    $mimetype = 'audio/x-wav';
-                    break;
-            }
-
-            $tmpname  = tempnam(sys_get_temp_dir(), 'indiepub_');
-            $fp       = fopen($url, 'rb');
-            if ($fp) {
-                $success = file_put_contents($tmpname, $fp);
-                fclose($fp);
-            } else {
-                $success = false;
-            }
-            if ($success) {
-
-                // If we haven't got a valid mime, try using magicbyte detection
-                if (empty($mimetype)) {
-                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                    $mimetype = finfo_file($finfo, $tmpname);
-                    finfo_close($finfo);
+                    case 'mp3':
+                        $mimetype = 'audio/mpeg';
+                        break;
+                    case 'oga':
+                    case 'ogg':
+                        $mimetype = 'audio/ogg';
+                        break;
+                    case 'wav':
+                        $mimetype = 'audio/x-wav';
+                        break;
                 }
 
-                $_FILES[$type][] = [
-                    'tmp_name' => $tmpname,
-                    'name'     => $pathinfo['basename'],
-                    'size'     => filesize($tmpname),
-                    'type'     => $mimetype,
-                ];
+                $tmpname  = tempnam(sys_get_temp_dir(), 'indiepub_');
+                $fp       = fopen($url, 'rb');
+                if ($fp) {
+                    $success = file_put_contents($tmpname, $fp);
+                    fclose($fp);
+                } else {
+                    $success = false;
+                }
+                if ($success) {
+
+                    // If we haven't got a valid mime, try using magicbyte detection
+                    if (empty($mimetype)) {
+                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                        $mimetype = finfo_file($finfo, $tmpname);
+                        finfo_close($finfo);
+                    }
+
+                    $_FILES[$type][] = [
+                        'tmp_name' => $tmpname,
+                        'name'     => $pathinfo['basename'],
+                        'size'     => filesize($tmpname),
+                        'type'     => $mimetype,
+                    ];
+                }
             }
             return $success;
         }
