@@ -175,7 +175,8 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
                     $visibility = $visibility[0];
                 }
 
-                // Since Known does not support multiple photos or videos, use the first if more than one was given.
+                // Since Known does support multiple photos
+                /*
                 if(is_array($photo_url) && array_key_exists(0, $photo_url)) {
                     $photo_url = $photo_url[0];
                 } elseif(is_array($photo_url) && array_key_exists('value', $photo_url)) {
@@ -183,7 +184,9 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
                     // $alt_text = $photo_url['alt'];
                     $photo_url = $photo_url['value'];
                 }
+                */
 
+                // Since Known does not support multiple videos, use the first if more than one was given.
                 if(is_array($video_url) && array_key_exists(0, $video_url)) {
                     $video_url = $video_url[0];
                 }
