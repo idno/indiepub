@@ -65,7 +65,7 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
                 // Output to the browser
                 $this->setResponse(200);
                 $headers = self::getallheaders();
-                file_put_contents("headers.json", json_encode($headers) . PHP_EOL, FILE_APPEND);
+                file_put_contents(__DIR__ . "/headers.json", json_encode($headers) . PHP_EOL, FILE_APPEND);
                 if(!empty($headers['Accept'])) {
                     switch($headers['Accept']) {
                         case 'application/json':
