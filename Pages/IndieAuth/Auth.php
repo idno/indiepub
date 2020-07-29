@@ -65,7 +65,6 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
             $verified = Auth::verifyCode($code, $client_id, $redirect_uri);
             if ($verified['valid']) {
                 $this->setResponse(200);   
-                file_put_contents(__DIR__ . "/headers.json", json_encode($headers) . PHP_EOL, FILE_APPEND);
                 if(!empty($headers['Accept'])) {
                     switch($headers['Accept']) {
                         case 'application/json':
@@ -94,7 +93,6 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
             }
 
             $this->setResponse(400);
-            file_put_contents(__DIR__ . "/headers.json", json_encode($headers) . PHP_EOL, FILE_APPEND);
             if(!empty($headers['Accept'])) {
                 switch($headers['Accept']) {
                     case 'application/json':
