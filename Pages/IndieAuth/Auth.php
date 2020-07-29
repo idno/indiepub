@@ -65,19 +65,40 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
             $verified = Auth::verifyCode($code, $client_id, $redirect_uri);
             if ($verified['valid']) {
                 $this->setResponse(200);
-                header('Content-Type: application/x-www-form-urlencoded');
-                echo http_build_query(array(
-                    'scope'        => $verified['scope'],
-                    'me'           => $verified['me'],
-                ));
+                switch($_SERVER['HTTP_ACCEPT']) {
+                    case 'application/json':
+                        header('Content-Type: application/json');
+                        echo json_encode(array(
+                            'scope'        => $verified['scope'],
+                            'me'           => $verified['me'],
+                        ));
+                    break;
+                    default:
+                        header('Content-Type: application/x-www-form-urlencoded');
+                        echo http_build_query(array(
+                            'scope'        => $verified['scope'],
+                            'me'           => $verified['me'],
+                        ));
+                    break;
+                }
                 exit;
             }
 
             $this->setResponse(400);
-            header('Content-Type: application/x-www-form-urlencoded');
-            echo http_build_query(array(
-                'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
-            ));
+            switch($_SERVER['HTTP_ACCEPT']) {
+                case 'application/json':
+                    header('Content-Type: application/json');
+                    echo json_encode(array(
+                        'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
+                    ));
+                break;
+                default:
+                    header('Content-Type: application/x-www-form-urlencoded');
+                    echo http_build_query(array(
+                        'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
+                    ));
+                break;
+            }
         }
 
         static function findUserForCode($code)
