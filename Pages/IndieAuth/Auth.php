@@ -82,15 +82,14 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
                             ));
                         break;
                     }
-                    exit;
-                }
-                else {
+                } else {
                     header('Content-Type: application/x-www-form-urlencoded');
                     echo http_build_query(array(
                         'scope'        => $verified['scope'],
                         'me'           => $verified['me'],
                     ));
                 }
+                exit;
             }
 
             $this->setResponse(400);
