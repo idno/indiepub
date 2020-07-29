@@ -41,15 +41,15 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
                    exit;
             }
 
-             $me_prime = $user->getIndieAuthURL();
-             $t        = \Idno\Core\site()->template();
+            $me_prime = $user->getIndieAuthURL();
+            $t        = \Idno\Core\site()->template();
             $t->body  = $t->__(array(
-                 'me'           => $me_prime,
-                 'client_id'    => $client_id,
-                 'pretty_id'    => preg_replace('/^https?:\/\//', '', $client_id),
-                 'scope'        => $scope,
-                 'redirect_uri' => $redirect_uri,
-                 'state'        => $state,
+                'me'           => $me_prime,
+                'client_id'    => $client_id,
+                'pretty_id'    => preg_replace('/^https?:\/\//', '', $client_id),
+                'scope'        => $scope,
+                'redirect_uri' => $redirect_uri,
+                'state'        => $state,
             ))->draw('indiepub/auth');
              $t->title = empty($scope) ? 'Authenticate' : 'Authorize';
              return $t->drawPage();
@@ -64,40 +64,57 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
 
             $verified = Auth::verifyCode($code, $client_id, $redirect_uri);
             if ($verified['valid']) {
-                $this->setResponse(200);
-                switch($_SERVER['HTTP_ACCEPT']) {
+                $this->setResponse(200);   
+                if(!empty($headers['Accept'])) {
+                    switch($headers['Accept']) {
+                        case 'application/json':
+                            header('Content-Type: application/json');
+                            echo json_encode(array(
+                                'scope'        => $verified['scope'],
+                                'me'           => $verified['me'],
+                            ));
+                        break;
+                        default:
+                            header('Content-Type: application/x-www-form-urlencoded');
+                            echo http_build_query(array(
+                                'scope'        => $verified['scope'],
+                                'me'           => $verified['me'],
+                            ));
+                        break;
+                    }
+                    exit;
+                }
+                else {
+                    header('Content-Type: application/x-www-form-urlencoded');
+                    echo http_build_query(array(
+                        'scope'        => $verified['scope'],
+                        'me'           => $verified['me'],
+                    ));
+                }
+            }
+
+            $this->setResponse(400);
+            if(!empty($headers['Accept'])) {
+                switch($headers['Accept']) {
                     case 'application/json':
                         header('Content-Type: application/json');
                         echo json_encode(array(
-                            'scope'        => $verified['scope'],
-                            'me'           => $verified['me'],
+                            'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
                         ));
                     break;
                     default:
                         header('Content-Type: application/x-www-form-urlencoded');
                         echo http_build_query(array(
-                            'scope'        => $verified['scope'],
-                            'me'           => $verified['me'],
+                            'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
                         ));
                     break;
                 }
-                exit;
             }
-
-            $this->setResponse(400);
-            switch($_SERVER['HTTP_ACCEPT']) {
-                case 'application/json':
-                    header('Content-Type: application/json');
-                    echo json_encode(array(
-                        'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
-                    ));
-                break;
-                default:
-                    header('Content-Type: application/x-www-form-urlencoded');
-                    echo http_build_query(array(
-                        'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
-                    ));
-                break;
+            else {
+                header('Content-Type: application/x-www-form-urlencoded');
+                echo http_build_query(array(
+                    'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
+                ));
             }
         }
 

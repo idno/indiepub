@@ -64,23 +64,33 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
 
                 // Output to the browser
                 $this->setResponse(200);
-                switch($_SERVER['HTTP_ACCEPT']) {
-                    case 'application/json':
-                        header('Content-Type: application/json');
-                        echo json_encode(array(
-                            'access_token' => $token,
-                            'scope'        => $verified['scope'],
-                            'me'           => $verified['me'],
-                        ));
-                    break;
-                    default:
-                        header('Content-Type: application/x-www-form-urlencoded');
-                        echo http_build_query(array(
-                            'access_token' => $token,
-                            'scope'        => $verified['scope'],
-                            'me'           => $verified['me'],
-                        ));
-                    break;
+                $headers = self::getallheaders();
+                if(!empty($headers['Accept'])) {
+                    switch($headers['Accept']) {
+                        case 'application/json':
+                            header('Content-Type: application/json');
+                            echo json_encode(array(
+                                'access_token' => $token,
+                                'scope'        => $verified['scope'],
+                                'me'           => $verified['me'],
+                            ));
+                        break;
+                        default:
+                            header('Content-Type: application/x-www-form-urlencoded');
+                            echo http_build_query(array(
+                                'access_token' => $token,
+                                'scope'        => $verified['scope'],
+                                'me'           => $verified['me'],
+                            ));
+                        break;
+                    }
+                } else {
+                    header('Content-Type: application/x-www-form-urlencoded');
+                    echo http_build_query(array(
+                        'access_token' => $token,
+                        'scope'        => $verified['scope'],
+                        'me'           => $verified['me'],
+                    ));
                 }
                 exit;
 
