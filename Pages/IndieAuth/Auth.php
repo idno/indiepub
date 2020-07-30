@@ -67,32 +67,6 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
             $verified = Auth::verifyCode($code, $client_id, $redirect_uri);
             if ($verified['valid']) {
                 $this->setResponse(200);  
-                /*
-                if(!empty($headers['Accept'])) {
-                    switch($headers['Accept']) {
-                        case 'application/json':
-                            header('Content-Type: application/json');
-                            echo json_encode(array(
-                                'scope'        => $verified['scope'],
-                                'me'           => $verified['me'],
-                            ));
-                        break;
-                        default:
-                            header('Content-Type: application/x-www-form-urlencoded');
-                            echo http_build_query(array(
-                                'scope'        => $verified['scope'],
-                                'me'           => $verified['me'],
-                            ));
-                        break;
-                    }
-                } else {
-                    header('Content-Type: application/x-www-form-urlencoded');
-                    echo http_build_query(array(
-                        'scope'        => $verified['scope'],
-                        'me'           => $verified['me'],
-                    ));
-                }
-                */
                 header('Content-Type: application/json');
                 echo json_encode(array(
                     'scope'        => $verified['scope'],
@@ -102,30 +76,6 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
             }
 
             $this->setResponse(400);
-            /*
-            if(!empty($headers['Accept'])) {
-                switch($headers['Accept']) {
-                    case 'application/json':
-                        header('Content-Type: application/json');
-                        echo json_encode(array(
-                            'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
-                        ));
-                    break;
-                    default:
-                        header('Content-Type: application/x-www-form-urlencoded');
-                        echo http_build_query(array(
-                            'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
-                        ));
-                    break;
-                }
-            }
-            else {
-                header('Content-Type: application/x-www-form-urlencoded');
-                echo http_build_query(array(
-                    'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
-                ));
-            }
-            */
             header('Content-Type: application/json');
             echo json_encode(array(
                 'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
