@@ -66,6 +66,7 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
 
                 // Output to the browser
                 $this->setResponse(200);
+                /*
                 if(!empty($headers['Accept'])) {
                     switch($headers['Accept']) {
                         case 'application/json':
@@ -93,6 +94,13 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
                         'me'           => $verified['me'],
                     ));
                 }
+                */
+                header('Content-Type: application/json');
+                echo json_encode(array(
+                    'access_token' => $token,
+                    'scope'        => $verified['scope'],
+                    'me'           => $verified['me'],
+                ));
                 exit;
 
             } else {

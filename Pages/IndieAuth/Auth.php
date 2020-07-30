@@ -67,6 +67,7 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
             $verified = Auth::verifyCode($code, $client_id, $redirect_uri);
             if ($verified['valid']) {
                 $this->setResponse(200);  
+                /*
                 if(!empty($headers['Accept'])) {
                     switch($headers['Accept']) {
                         case 'application/json':
@@ -91,10 +92,17 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
                         'me'           => $verified['me'],
                     ));
                 }
+                */
+                header('Content-Type: application/json');
+                echo json_encode(array(
+                    'scope'        => $verified['scope'],
+                    'me'           => $verified['me'],
+                ));
                 exit;
             }
 
             $this->setResponse(400);
+            /*
             if(!empty($headers['Accept'])) {
                 switch($headers['Accept']) {
                     case 'application/json':
@@ -117,6 +125,11 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
                     'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
                 ));
             }
+            */
+            header('Content-Type: application/json');
+            echo json_encode(array(
+                'error' => $verified['reason'] ? $verified['reason'] : 'Invalid auth code',
+            ));
         }
 
         static function findUserForCode($code)
