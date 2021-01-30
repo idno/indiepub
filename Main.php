@@ -6,10 +6,8 @@ namespace IdnoPlugins\IndiePub {
 
     class Main extends \Idno\Common\Plugin
     {
-
         function registerTranslations()
         {
-
             \Idno\Core\Idno::site()->language()->register(
                 new \Idno\Core\GetTextTranslation(
                     'indiepub', dirname(__FILE__) . '/languages/'
@@ -52,7 +50,7 @@ namespace IdnoPlugins\IndiePub {
         private static function authenticate()
         {
             $access_token = \Idno\Core\Input::getInput('access_token');
-            $headers      = \Idno\Common\Page::getallheaders();
+            $headers = \Idno\Common\Page::getallheaders();
             if (!empty($headers['Authorization'])) {
                 $token = $headers['Authorization'];
                 $token = trim(str_replace('Bearer', '', $token));
@@ -72,12 +70,12 @@ namespace IdnoPlugins\IndiePub {
                 }
                 $user = \Idno\Entities\User::getOne(array('admin' => true));
                 if ($user)
-                if ($token == $user->getAPIkey()) {
-                    \Idno\Core\Idno::site()->session()->setIsAPIRequest(true);
-                    \Idno\Core\Idno::site()->session()->refreshSessionUser($user);
+                    if ($token == $user->getAPIkey()) {
+                        \Idno\Core\Idno::site()->session()->setIsAPIRequest(true);
+                        \Idno\Core\Idno::site()->session()->refreshSessionUser($user);
 
-                    return $user;
-                }
+                        return $user;
+                    }
             }
 
             return false;
