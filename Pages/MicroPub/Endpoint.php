@@ -175,7 +175,8 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
                     $visibility = $visibility[0];
                 }
 
-                // Since Known does not support multiple photos or videos, use the first if more than one was given.
+                // Since Known does support multiple photos
+                /*
                 if(is_array($photo_url) && array_key_exists(0, $photo_url)) {
                     $photo_url = $photo_url[0];
                 } elseif(is_array($photo_url) && array_key_exists('value', $photo_url)) {
@@ -183,7 +184,9 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
                     // $alt_text = $photo_url['alt'];
                     $photo_url = $photo_url['value'];
                 }
+                */
 
+                // Since Known does not support multiple videos, use the first if more than one was given.
                 if(is_array($video_url) && array_key_exists(0, $video_url)) {
                     $video_url = $video_url[0];
                 }
@@ -608,61 +611,65 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
          */
         private function uploadFromUrl($type, $url)
         {
-            $pathinfo = pathinfo(parse_url($url, PHP_URL_PATH));
-            switch ($pathinfo['extension']) {
-                case 'jpg':
-                case 'jpeg':
-                    $mimetype = 'image/jpeg';
-                    break;
-                case 'png':
-                    $mimetype = 'image/png';
-                    break;
-                case 'gif':
-                    $mimetype = 'image/gif';
-                    break;
+            $_url = $url;
+            foreach($_url as $url)
+            {
+                $pathinfo = pathinfo(parse_url($url, PHP_URL_PATH));
+                switch ($pathinfo['extension']) {
+                    case 'jpg':
+                    case 'jpeg':
+                        $mimetype = 'image/jpeg';
+                        break;
+                    case 'png':
+                        $mimetype = 'image/png';
+                        break;
+                    case 'gif':
+                        $mimetype = 'image/gif';
+                        break;
 
-                case 'mp4':
-                    $mimetype = 'video/mp4';
-                    break;
-                case 'ogv':
-                    $mimetype = 'video/ogg';
-                    break;
+                    case 'mp4':
+                        $mimetype = 'video/mp4';
+                        break;
+                    case 'ogv':
+                        $mimetype = 'video/ogg';
+                        break;
 
-                case 'mp3':
-                    $mimetype = 'audio/mpeg';
-                    break;
-                case 'oga':
-                case 'ogg':
-                    $mimetype = 'audio/ogg';
-                    break;
-                case 'wav':
-                    $mimetype = 'audio/x-wav';
-                    break;
-            }
-
-            $tmpname  = tempnam(sys_get_temp_dir(), 'indiepub_');
-            $fp       = fopen($url, 'rb');
-            if ($fp) {
-                $success = file_put_contents($tmpname, $fp);
-                fclose($fp);
-            } else {
-                $success = false;
-            }
-            if ($success) {
-
-                // If we haven't got a valid mime, try using magicbyte detection
-                if (empty($mimetype)) {
-                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                    $mimetype = finfo_file($finfo, $tmpname);
-                    finfo_close($finfo);
+                    case 'mp3':
+                        $mimetype = 'audio/mpeg';
+                        break;
+                    case 'oga':
+                    case 'ogg':
+                        $mimetype = 'audio/ogg';
+                        break;
+                    case 'wav':
+                        $mimetype = 'audio/x-wav';
+                        break;
                 }
 
-                $_FILES[$type] = [
-                    'tmp_name' => $tmpname,
-                    'name'     => $pathinfo['basename'],
-                    'size'     => filesize($tmpname),
-                    'type'     => $mimetype,
-                ];
+                $tmpname  = tempnam(sys_get_temp_dir(), 'indiepub_');
+                $fp       = fopen($url, 'rb');
+                if ($fp) {
+                    $success = file_put_contents($tmpname, $fp);
+                    fclose($fp);
+                } else {
+                    $success = false;
+                }
+                if ($success) {
+
+                    // If we haven't got a valid mime, try using magicbyte detection
+                    if (empty($mimetype)) {
+                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                        $mimetype = finfo_file($finfo, $tmpname);
+                        finfo_close($finfo);
+                    }
+
+                    $_FILES[$type][] = [
+                        'tmp_name' => $tmpname,
+                        'name'     => $pathinfo['basename'],
+                        'size'     => filesize($tmpname),
+                        'type'     => $mimetype,
+                    ];
+                }
             }
             return $success;
         }
