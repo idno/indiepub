@@ -35,6 +35,8 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
             $redirect_uri = $this->getInput('redirect_uri');
             $state        = $this->getInput('state');
             $client_id    = $this->getInput('client_id');
+            
+            $headers      = self::getallheaders();
 
             $verified = Auth::verifyCode($code, $client_id, $redirect_uri, $state);
             if ($verified['valid']===true) {
@@ -64,8 +66,8 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
 
                 // Output to the browser
                 $this->setResponse(200);
-                header('Content-Type: application/x-www-form-urlencoded');
-                echo http_build_query(array(
+                header('Content-Type: application/json');
+                echo json_encode(array(
                     'access_token' => $token,
                     'scope'        => $verified['scope'],
                     'me'           => $verified['me'],
