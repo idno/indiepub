@@ -31,7 +31,7 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
             // not logged in? they'll need to enter their password
             if (!($user = \Idno\Core\site()->session()->currentUser())) {
                 // Do login and redirect workflow
-                $this->forward('/session/login?fwd=' . urlencode($this->currentUrl()));
+                $this->forwardToLogin($this->currentUrl());
                 exit;
             }
 
@@ -61,12 +61,12 @@ namespace IdnoPlugins\IndiePub\Pages\IndieAuth {
             $code         = $this->getInput('code');
             $client_id    = $this->getInput('client_id');
             $redirect_uri = $this->getInput('redirect_uri');
-            
+
             $headers      = self::getallheaders();
 
             $verified = Auth::verifyCode($code, $client_id, $redirect_uri);
             if ($verified['valid']) {
-                $this->setResponse(200);  
+                $this->setResponse(200);
                 header('Content-Type: application/json');
                 echo json_encode(array(
                     'scope'        => $verified['scope'],
