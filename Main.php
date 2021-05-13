@@ -32,6 +32,7 @@ namespace IdnoPlugins\IndiePub {
             \Idno\Core\Idno::site()->routes()->addRoute('/micropub/endpoint/?', '\IdnoPlugins\IndiePub\Pages\MicroPub\Endpoint', true);
             \Idno\Core\Idno::site()->routes()->addRoute('/account/indiepub/?', '\IdnoPlugins\IndiePub\Pages\Account');
             \Idno\Core\Idno::site()->routes()->addRoute('/account/indiepub/revoke/?', '\IdnoPlugins\IndiePub\Pages\Revoke');
+            \Idno\Core\Idno::site()->routes()->addRoute('/account/indiepub/add/?', '\IdnoPlugins\IndiePub\Pages\Add');
 
             \Idno\Core\Idno::site()->template()->extendTemplate('shell/head', 'indiepub/shell/head');
             \Idno\Core\Idno::site()->template()->extendTemplate('account/menu/items', 'account/menu/items/indiepub');

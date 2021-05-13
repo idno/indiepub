@@ -9,7 +9,7 @@ $user = Idno::site()->session()->currentUser();
     <div class="col-md-offset-1 col-md-10">
 
         <?php echo $this->draw('account/menu') ?>
-        <h1><?php echo \Idno\Core\Idno::site()->language()->_('IndiePub Accounts'); ?></h1>
+        <h1><?php echo \Idno\Core\Idno::site()->language()->_('Micropub Accounts'); ?></h1>
 
 
         <?php
@@ -17,7 +17,7 @@ $user = Idno::site()->session()->currentUser();
             ?>
             <div class="explanation">
                 <p>
-                    <?php echo \Idno\Core\Idno::site()->language()->_('There are currently no IndiePub accounts associated with this site.'); ?>
+                    <?php echo \Idno\Core\Idno::site()->language()->_('There are currently no micropub accounts associated with this site.'); ?>
                 </p>
             </div>
             <?php
@@ -33,7 +33,10 @@ $user = Idno::site()->session()->currentUser();
                         <?php echo \Idno\Core\Idno::site()->language()->_('with the scope'); ?> <strong><?php echo $details['scope'] ?></strong>.
                     </p>
                     <p>
-                      <?php echo \Idno\Core\Idno::site()->language()->_('Token'); ?>: <?php echo substr($token, 0, 5) ?>&hellip;
+                        <?php echo \Idno\Core\Idno::site()->language()->_('Redirect URI'); ?>: <?php echo $details['redirect_uri']; /*substr($token, 0, 5) */ ?>
+                    </p>
+                    <p>
+                      <?php echo \Idno\Core\Idno::site()->language()->_('Token'); ?>: <?php echo $token; /*substr($token, 0, 5) */ ?>
                     </p>
                     <form action="<?php echo Idno::site()->config()->getDisplayURL() ?>account/indiepub/revoke" method="POST">
                         <input name="token" type="hidden" value="<?php echo $token ?>">
@@ -45,6 +48,34 @@ $user = Idno::site()->session()->currentUser();
                 <?php
             }
         }?>
+
+        <p id="addtoken-link">
+            <a href="#" onclick="$('#addtoken').show(); $('#addtoken-link').hide(); return false;"><?php echo \Idno\Core\Idno::site()->language()->_('Add Micropub Account'); ?></a>
+        </p>
+        <div id="addtoken" style="display: none; width: 100%">
+            <h3>
+                <?php echo \Idno\Core\Idno::site()->language()->_('Add Micropub Account'); ?>
+            </h3>
+            <p>
+                <?php echo \Idno\Core\Idno::site()->language()->_('To manually add a micropub client account and generate an API token, enter the details below.'); ?>
+            </p>
+            <form action="<?php echo Idno::site()->config()->getDisplayURL() ?>account/indiepub/add" method="post">
+                <div>
+                    <label>
+                        <?php echo \Idno\Core\Idno::site()->language()->_('Client ID'); ?><br>
+                        <input type="text" name="client_id" value="" required />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <?php echo \Idno\Core\Idno::site()->language()->_('Redirect URI'); ?><br>
+                        <input type="text" name="redirect_uri" value="" required />
+                    </label>
+                </div>
+                <button class="btn btn-warning" type="submit"><?php echo \Idno\Core\Idno::site()->language()->_('Save'); ?></button>
+                <?php echo Idno::site()->actions()->signForm('account/indiepub/add') ?>
+            </form>
+        </div>
 
 </div>
 </div>
