@@ -1,17 +1,37 @@
-#: ./Pages/Account.php:16
-msgid "IndiePub Accounts"
+#: ./templates/default/indiepub/auth.tpl.php:12
+msgid "You are logged in as %s."
 msgstr ""
 
-#: ./Pages/Revoke.php:20
-msgid "Nothing to revoke."
+#: ./templates/default/indiepub/auth.tpl.php:18
+msgid "Authenticate to %s?"
 msgstr ""
 
-#: ./Pages/Revoke.php:26
-msgid "No IndiePub account with that token."
+#: ./templates/default/indiepub/auth.tpl.php:20
+msgid "Authorize %s to access this site with the following permission(s)?<br />%s"
+msgstr ""
+
+#: ./templates/default/indiepub/auth.tpl.php:28
+msgid "Authenticate"
+msgstr ""
+
+#: ./templates/default/indiepub/auth.tpl.php:28
+msgid "Authorize"
+msgstr ""
+
+#: ./templates/default/indiepub/auth.tpl.php:31
+msgid "Cancel"
+msgstr ""
+
+#: ./templates/default/account/menu/items/indiepub.tpl.php:6
+msgid "IndiePub"
+msgstr ""
+
+#: ./templates/default/account/indiepub.tpl.php:12
+msgid "Micropub Accounts"
 msgstr ""
 
 #: ./templates/default/account/indiepub.tpl.php:20
-msgid "There are currently no IndiePub accounts associated with this site."
+msgid "There are currently no micropub accounts associated with this site."
 msgstr ""
 
 #: ./templates/default/account/indiepub.tpl.php:28
@@ -27,38 +47,46 @@ msgid "with the scope"
 msgstr ""
 
 #: ./templates/default/account/indiepub.tpl.php:36
+msgid "Redirect URI"
+msgstr ""
+
+#: ./templates/default/account/indiepub.tpl.php:39
 msgid "Token"
 msgstr ""
 
-#: ./templates/default/account/indiepub.tpl.php:40
+#: ./templates/default/account/indiepub.tpl.php:43
 msgid "Revoke Access"
 msgstr ""
 
-#: ./templates/default/account/menu/items/indiepub.tpl.php:6
-msgid "IndiePub"
+#: ./templates/default/account/indiepub.tpl.php:53
+msgid "Add Micropub Account"
 msgstr ""
 
-#: ./templates/default/indiepub/auth.tpl.php:12
-msgid "You are logged in as %s."
+#: ./templates/default/account/indiepub.tpl.php:60
+msgid "To manually add a micropub client account and generate an API token, enter the details below."
 msgstr ""
 
-#: ./templates/default/indiepub/auth.tpl.php:14
-msgid "Authenticate to %s?"
+#: ./templates/default/account/indiepub.tpl.php:75
+msgid "Save"
 msgstr ""
 
-#: ./templates/default/indiepub/auth.tpl.php:16
-msgid "Authorize %s to access this site with the scope(s) %s?"
+#: ./Pages/Add.php:20
+msgid "Client ID can't be blank."
 msgstr ""
 
-#: ./templates/default/indiepub/auth.tpl.php:24
-msgid "Authenticate"
+#: ./Pages/Add.php:24
+msgid "Redirect URI can't be blank."
 msgstr ""
 
-#: ./templates/default/indiepub/auth.tpl.php:24
-msgid "Authorize"
+#: ./Pages/Account.php:17
+msgid "IndiePub Accounts"
 msgstr ""
 
-#: ./templates/default/indiepub/auth.tpl.php:26
-msgid "Cancel"
+#: ./Pages/Revoke.php:21
+msgid "Nothing to revoke."
+msgstr ""
+
+#: ./Pages/Revoke.php:27
+msgid "No IndiePub account with that token."
 msgstr ""
 
