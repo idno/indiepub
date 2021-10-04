@@ -572,7 +572,7 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
          *
          * @return void
          */
-        protected function error($statusCode, $error, $description)
+        protected function error(int $statusCode, string $error, string $description = '')
         {
             $site = \Idno\Core\Idno::site();
             $msgs = $site->session()->getMessages();
@@ -595,7 +595,7 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
         /**
          * Override normal "forbidden" page
          */
-        function deniedContent($title = '')
+        function deniedContent(string $title = '')
         {
             $this->error(403, 'forbidden', $title);
         }
@@ -609,7 +609,7 @@ namespace IdnoPlugins\IndiePub\Pages\MicroPub {
          * @param string $type "photo", "audio" or "video"
          * @param string $url  File URL
          */
-        private function uploadFromUrl($type, $url)
+        private function uploadFromUrl(string $type, string $url): bool
         {
             $_url = $url;
             foreach($_url as $url)
